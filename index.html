@@ -30,7 +30,7 @@
             let out = "";
             let tp = "<li id={id} value=“{value}” onclick=del({id})>{con}</li>";
             for(let i=0;i<passall.length;i++){
-                out += tp.replace('{con}', passall[i].app+": "+passall[i].pass).replace("{id}", i).replace("{id}", i).replace('{value}', passall[i].pass);
+                out += tp.replace('{con}', passall[i].app+": ******").replace("{id}", i).replace("{id}", i).replace('{value}', passall[i].pass);
             }
             document.all.display.innerHTML = out;
             document.all.pass.value = '';
