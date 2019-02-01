@@ -1,3 +1,14 @@
+<center>
+  <input type="text" id="pwd" />
+  <input type="button" value="add" onclick="myadd()" />
+</center>
 <script>
-alert('haha')
+  if(localStorage.pwd){
+    alert(localStorage.pwd);
+  }
+  function myadd(){
+    let pwd = document.all.pwd.value;
+    localStorage.pwd = pwd;
+  }
 </script>
+    
