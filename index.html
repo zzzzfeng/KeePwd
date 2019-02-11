@@ -102,7 +102,7 @@
             passall = JSON.parse(localStorage.passall);
         }
         for(let i=0;i<passall.length;i++){
-            passall[i].pass = aesDe(passall[i].pass, sessionStorage.getItem('pwd'));
+            passall[i].b = aesDe(passall[i].b, sessionStorage.getItem('pwd'));
         }
         return passall;
     }
@@ -111,7 +111,7 @@
      **/
     function writeStorage(passall){
         for(let i=0;i<passall.length;i++){
-            passall[i].pass = aesEn(passall[i].pass, sessionStorage.getItem('pwd'));
+            passall[i].b = aesEn(passall[i].b, sessionStorage.getItem('pwd'));
         }
         localStorage.passall = JSON.stringify(passall);
     }
