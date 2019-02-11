@@ -196,22 +196,11 @@
             alert('不能为空');return;
         }
         let passall = getStorage();
-        console.log("all "+ JSON.stringify(passall));
+        //console.log("all "+ JSON.stringify(passall));
         if(app == '#导入#'){
             let temp = JSON.parse(pass);
-            for(let i=0;i<temp.length;i++){
-                if(temp[i].app == '#lkpwd#'){
-                    if(temp[i].pass == localStorage.lkpwd){
-                        temp.splice(i,1);
-                        passall = passall.concat(temp);
-                        console.log("import "+ JSON.stringify(temp));
-                        break;
-                    }else{
-                        alert('解锁密码不一致，无法导入');
-                        return;
-                    }
-                }
-            }
+            passall = passall.concat(temp);
+            console.log("import "+ JSON.stringify(temp));
         }else{//增加
             let item = {};
             item.app = app;
@@ -219,13 +208,13 @@
             console.log("add "+ JSON.stringify(item));
             passall.splice(0, 0, item);
         }
-        console.log("all1 "+ JSON.stringify(passall));
+        //console.log("all1 "+ JSON.stringify(passall));
         writeStorage(passall);
         updateView();
     }
 
     /**
-     * 导出lkpwd和passall到剪贴板
+     * 导出明文passall到剪贴板
     **/
     function exportAll(){
         if(!sessionStorage.getItem('pwd')){
@@ -233,10 +222,6 @@
             return;
         }
         let passall = getStorage();
-        let item = {};
-        item.app = '#lkpwd#';
-        item.pass = localStorage.lkpwd;
-        passall.push(item);
         document.all.pass.value = JSON.stringify(passall);
         const input = document.querySelector('#pass');
         input.select();
