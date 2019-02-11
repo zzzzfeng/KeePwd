@@ -125,7 +125,7 @@
         let out = "";
         let tp = "<li id={id} value={value} onmousedown='delPwd(event, {id})' oncontextmenu='return false;'>{con}</li>";
         for(let i=0;i<passall.length;i++){
-            out += tp.replace('{con}', passall[i].app+": ******").replace('{id}', i).replace('{id}', i).replace('{value}', passall[i].pass);
+            out += tp.replace('{con}', passall[i].a+": ******").replace('{id}', i).replace('{id}', i).replace('{value}', passall[i].b);
         }
         document.all.display.innerHTML = out;
         document.all.pass.value = '';
@@ -162,7 +162,7 @@
         }
         let passall = getStorage();
         if(e.button != 2){
-            document.all.pass.value = passall[id].pass;
+            document.all.pass.value = passall[id].b;
             const input = document.querySelector('#pass');
             input.select();
             try{
@@ -173,7 +173,7 @@
 
         }else{//右键
             e.preventDefault();e.stopPropagation();
-            let r = confirm("确认删除 " + passall[id].app+': '+passall[id].pass);
+            let r = confirm("确认删除 " + passall[id].a+': '+passall[id].b);
             if(r){
                 passall.splice(id, 1)
                 writeStorage(passall);
@@ -203,8 +203,8 @@
             console.log("import "+ JSON.stringify(temp));
         }else{//增加
             let item = {};
-            item.app = app;
-            item.pass = pass;
+            item.a = app;
+            item.b = pass;
             console.log("add "+ JSON.stringify(item));
             passall.splice(0, 0, item);
         }
