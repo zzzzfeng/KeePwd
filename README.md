@@ -11,10 +11,9 @@
 - 删除：右键删除
 - 导出：更换电脑或浏览器或清空缓存时，数据会丢失，导出功能可以将关键数据全部复制到剪贴板
 - 导入：应用名输入 #导入# ，密码粘贴导出的密码，可将别处保存的密码合并到一起
-- 修改：无
 
 # About Security(关于安全性)
 - 所有信息完全存储在本地（浏览器localstorage）
 - 首先设置解锁密码lkpwd，加密存储在localstorage，加密方式：`CryptoJS.SHA256(CryptoJS.SHA256(lkpwd)+lkpwd)`
-- 输入解锁密码比对无误后，加密存储在sessionstorage(窗口关闭即失效)，加密方式：`CryptoJS.SHA256(lkpwd.slice(0,1)+lkpwd)`；用来加密密码
-- 密码全部使用`CryptoJS.AES`加密保存，密钥为sessionstorage中保存的加密解锁密码
+- 输入解锁密码比对无误后，将其加密存储在sessionstorage(窗口关闭即失效)，该pwd用作后续加密密钥，加密方式：`CryptoJS.SHA256(lkpwd.slice(0,1)+lkpwd)`
+- 密码全部使用`CryptoJS.AES`加密保存，密钥为保存在sessionstorage中的pwd
