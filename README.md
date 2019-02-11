@@ -15,6 +15,6 @@
 
 # About Security(关于安全性)
 - 所有信息完全存储在本地（浏览器localstorage）
-- 首先设置一个解锁密码lkpwd，加密存储在localstorage，加密方式：`CryptoJS.SHA256(CryptoJS.SHA256(lkpwd)+lkpwd)`
+- 首先设置解锁密码lkpwd，加密存储在localstorage，加密方式：`CryptoJS.SHA256(CryptoJS.SHA256(lkpwd)+lkpwd)`
 - 输入解锁密码比对无误后，加密存储在sessionstorage(窗口关闭即失效)，加密方式：`CryptoJS.SHA256(lkpwd.slice(0,1)+lkpwd)`；用来加密密码
 - 密码全部使用`CryptoJS.AES`加密保存，密钥为sessionstorage中保存的加密解锁密码
