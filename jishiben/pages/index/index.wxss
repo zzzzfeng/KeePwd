@@ -1,0 +1,40 @@
+/**index.wxss**/
+.mtitle{
+text-align: center;
+font-size: larger;
+}
+
+.minput {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+.btn-area {
+  width: 90%;
+  margin: auto;
+}
+.btn-area1 {
+  display:flex;
+  width: 90%;
+  margin: auto;
+}
+.btn-area1 button {
+  margin-top: 7px;
+  width: 90%;
+  font-size: smaller;
+}
+
+.mlist{
+  width: 90%;
+  margin: auto;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border-width: 0 0 4rpx 0;
+  border-color: black;
+  border-style: dashed;
+}

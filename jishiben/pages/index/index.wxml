@@ -1,0 +1,21 @@
+<!--index.wxml-->
+<view class='mtitle'>
+KeePwd<text style='font-size:xx-small' bindtap='copyPC'>(点击复制、长按删除)\nPC版：https://zzzzfeng.github.io/KeePwd/</text>
+</view>
+<view class="userinfo">
+  <view class='minput'>
+    |<input placeholder="应用名" auto-focus type='text' value='{{passapp}}' bindinput='getapp' />|
+    <input placeholder="密码" type='text' value='{{passpass}}' bindinput='getpass' />|
+  </view>
+  <view class="btn-area">
+    <!-- <button bindtap="bindRemove">清空</button> -->
+    <button bindtap="bindAdd">增加</button>
+  </view>
+  <view class="btn-area1">
+    <button bindtap="bindExport">导出</button>
+    <button bindtap="bindRand">随机密码</button>
+  </view>
+  <view class='mlist' wx:for="{{passall}}">
+    <view data-id='{{index}}' data-content='{{item.a}} : {{item.b}}' bindtap='bindOps' bindtouchstart='touchstart' bindtouchend='touchend'>{{item.a}}: ******</view>
+  </view>
+</view>
