@@ -20,8 +20,8 @@
         <div class="title">KeePwd<span style="font-size:xx-small">(同小程序KeePwd,单击复制或删除)</span></div>
         <div class="oper">
             <input type="text" placeholder="应用名" id="app" />
-            <input type="text" placeholder="密码" id="pass" />
-            <input type="button" onclick="add()" value="增加" />
+            <<input type="text" placeholder="密码" id="pass" onkeydown="if(event.keyCode==13){document.all.addp.click()}" />
+            <input type="button" onclick="add()" value="增加" id="addp" />
             <input type="button" onclick="randpwd()" value="随机密码" />
         </div>
         <div class="display" id="display"></div>
