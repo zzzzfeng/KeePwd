@@ -26,77 +26,159 @@
         </div>
         <div class="display" id="display"></div>
     </div>
-    <script>
-        function updateView(){
-            let passall = getStorage();
-            let out = "";
-            let tp = "<li id={id} value=“{value}” onclick=del({id})>{con}</li>";
-            for(let i=0;i<passall.length;i++){
-                out += tp.replace('{con}', passall[i].app+": ******").replace("{id}", i).replace("{id}", i).replace('{value}', passall[i].pass);
-            }
-            document.all.display.innerHTML = out;
-            document.all.pass.value = '';
-            document.all.app.value = '';
-        }
-        updateView();
+</body>
+<script src="sha256.js"></script>
+<script src="aes.js"></script>
+<script>
+    //https://code.google.com/archive/p/crypto-js/
 
-        function randpwd(){
-            document.all.pass.value = randpass();
-        }
-        function randpass(le){
-            let len = le || 10;
-            let chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; // 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
-            let maxPos = chars.length;
-            let pwd = '';
-            for (i = 0; i < len; i++) {
-                pwd += chars.charAt(Math.floor(Math.random() * maxPos));
+    /**
+     * 输入解锁密码
+     **/
+    function login(){
+        if(localStorage.lkpwd && localStorage.lkpwd!=''){
+            if(sessionStorage.getItem('pwd')){
+                console.log('already login');
+                updateView();
+                return;
             }
-            return pwd;
+            let pwd = prompt('输入解锁密码', '');
+            if(pwd != null && pwd != ''){
+                let input = CryptoJS.SHA256(CryptoJS.SHA256(pwd)+pwd);//密码存储
+                if(input == localStorage.lkpwd){
+                    sessionStorage.setItem('pwd', CryptoJS.SHA256(getsalt(pwd)));//增加获取明文密码难度
+                    updateView();
+                }
+            }
+        }else{
+            //初次使用
+            let lkpwd = prompt('设置解锁密码','');
+            if(lkpwd != null && lkpwd != ''){
+                localStorage.lkpwd = CryptoJS.SHA256(CryptoJS.SHA256(lkpwd)+lkpwd);
+                sessionStorage.setItem('pwd', CryptoJS.SHA256(getsalt(lkpwd)));
+            }
         }
+    }
+    login()
+    /**
+     * 密码第一位当作salt
+    **/
+    function getsalt(p){
+        return p.slice(0,1)+p;
+    }
+    function aesDe(s, p){
+        return CryptoJS.AES.decrypt(s, p).toString(CryptoJS.enc.Utf8);
+    }
+    function aesEn(s, p){
+        return CryptoJS.AES.encrypt(s, p).toString();
+    }
+    /**
+     * 密码 localstorage读写
+     **/
+    function getStorage(){
+        let passall = [];
+        if(localStorage.passall){
+            passall = JSON.parse(localStorage.passall);
+        }
+        for(let i=0;i<passall.length;i++){
+            passall[i].pass = aesDe(passall[i].pass, sessionStorage.getItem('pwd'));
+        }
+        return passall;
+    }
+    /**
+     * 密码 localstorage读写
+     **/
+    function writeStorage(passall){
+        for(let i=0;i<passall.length;i++){
+            passall[i].pass = aesEn(passall[i].pass, sessionStorage.getItem('pwd'));
+        }
+        localStorage.passall = JSON.stringify(passall);
+    }
 
-        function del(id){
-            let passall = getStorage();
-            let r = confirm("‘确定’进行复制；‘取消’进行删除" + JSON.stringify(passall[id]));
+    /**
+     * 从localstorage中读
+     * 掩码展示
+     **/
+    function updateView(){
+        let passall = getStorage();
+        let out = "";
+        let tp = "<li id={id} value={value} onmousedown='del(event, {id})' oncontextmenu='return false'>{con}</li>";
+        for(let i=0;i<passall.length;i++){
+            out += tp.replace('{con}', passall[i].app+": ******").replace('{id}', i).replace('{id}', i).replace('{value}', passall[i].pass);
+        }
+        document.all.display.innerHTML = out;
+        document.all.pass.value = '';
+        document.all.app.value = '';
+    }
+
+    /**
+     * 随机密码
+     **/
+    function randpwd(){
+        document.all.pass.value = randpass();
+    }
+    /**
+     * 随机密码
+     **/
+    function randpass(le){
+        let len = le || 10;
+        let chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; // 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
+        let maxPos = chars.length;
+        let pwd = '';
+        for (i = 0; i < len; i++) {
+            pwd += chars.charAt(Math.floor(Math.random() * maxPos));
+        }
+        return pwd;
+    }
+
+    /**
+     * 右键删除，左键复制
+     **/
+    function del(e, id){
+        e.preventDefault();
+        if(!sessionStorage.getItem('pwd')){
+            login();
+            return;
+        }
+        let passall = getStorage();
+        if(e.button != 2){
+            document.all.pass.value = passall[id].pass;
+            const input = document.querySelector('#pass');
+            input.select();
+            try{
+                console.log('复制 ' + document.execCommand('copy'));
+            }catch(E){}
+        }else{
+            let r = confirm("删除" + JSON.stringify(passall[id]));
             if(r){
-                document.all.pass.value = passall[id].pass;
-                const input = document.querySelector('#pass');
-                input.select();
-                try{
-                    console.log('复制 ' + document.execCommand('copy'));
-                }catch(E){}
-            }else{
                 passall.splice(id, 1)
                 writeStorage(passall);
                 updateView();
             }
+        }   
+    }
+    
+    /**
+     * 增加
+     **/
+    function add(){
+        if(!sessionStorage.getItem('pwd')){
+            login();
+            return;
         }
-
-        function getStorage(){
-            let passall = [];
-            if(localStorage.passall){
-                passall = JSON.parse(localStorage.passall);
-            }
-            return passall;
+        let app = document.all.app.value;
+        let pass = document.all.pass.value;
+        if(!app || !pass){
+            alert('不能为空');return;
         }
-
-        function writeStorage(s){
-            localStorage.passall = JSON.stringify(s);
-        }
-
-        function add(){
-            let app = document.all.app.value;
-            let pass = document.all.pass.value;
-            if(!app || !pass){
-                alert('不能为空');return;
-            }
-            let item = {};
-            item.app = app;
-            item.pass = pass;
-            console.log("add "+ JSON.stringify(item));
-            let passall = getStorage();
-            passall.splice(0, 0, item);
-            writeStorage(passall);
-            updateView();
-        }
-    </script>
-</body></html>
+        let item = {};
+        item.app = app;
+        item.pass = pass;
+        console.log("add "+ JSON.stringify(item));
+        let passall = getStorage();
+        passall.splice(0, 0, item);
+        writeStorage(passall);
+        updateView();
+    }
+</script>
+</html>
