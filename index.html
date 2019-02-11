@@ -1,16 +1,17 @@
 <meta charset="utf8">
 <html>
 <style type="text/css">
-    .center{
-        margin: 10px auto;
+    .title{
+        margin: 40px auto;
         text-align: center;
     }
-    #li {
-        list-style-type:none; color:#000000;
+    .oper{
+        text-align: center;
+        margin: 10px auto;
     }
     .display{
         text-align: left;
-        width: 400px;
+        width: 600px;
         margin: 10px auto;
     }
     input[type=text] {
@@ -36,7 +37,7 @@
 <body style="font-size:30px">
     <title>KeePwd - 密码本地管理</title>
     <div class="center">
-        <div class="title">KeePwd<span style="font-size:xx-small">(同小程序KeePwd,单击复制/右键删除)</span></div>
+        <div class="title" style="font-size:xx-large">KeePwd<span style="font-size:xx-small">(同小程序KeePwd,单击复制/右键删除)</span></div>
         <div class="oper">
             <input type="text" placeholder="应用名" id="app" autofocus />
             <input type="text" placeholder="密码" id="pass" onkeydown="if(event.keyCode==13){document.all.addp.click()}" />
