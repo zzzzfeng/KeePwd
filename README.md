@@ -18,3 +18,4 @@
 - 首先设置解锁密码lkpwd，加密存储在localstorage，加密方式：`CryptoJS.SHA256(CryptoJS.SHA256(lkpwd)+lkpwd)`
 - 输入解锁密码比对无误后，将其加密存储在sessionstorage(窗口关闭即失效)，该pwd用作后续加密密钥，加密方式：`CryptoJS.SHA256(lkpwd.slice(0,1)+lkpwd)`
 - 密码全部使用`CryptoJS.AES`加密保存，密钥为保存在sessionstorage中的pwd
+- 微信小程序未进行加密
