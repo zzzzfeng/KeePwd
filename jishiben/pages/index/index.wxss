@@ -6,11 +6,14 @@ font-size: larger;
 
 .minput {
   display: flex;
-  flex-direction: row;
-  width: 90%;
+  flex-direction: column;
+  width: 88%;
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+.minput input{
+  padding-bottom: 6px;
 }
 
 
