@@ -2,7 +2,8 @@
 `Save password to localstorage of browser, a keepass-like password manager`
 - [体验](https://zzzzfeng.github.io/KeePwd/index.html)
 - 轻量版的密码管理器，密码加密存储在[localstorage](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/localStorage)
-- 移动端版本：微信小程序KeePwd
+- 移动端版本：
+![密码管理本地版](keepwd.jpg)
 
 # About Function(关于功能)
 - localstorage最大存储5M（也许10M），存储100w个字符足够的，不必担心不够存
