@@ -73,7 +73,7 @@
             }
         }else{
             //初次使用
-            let lkpwd = prompt('设置解锁密码','');
+            let lkpwd = prompt('设置解锁密码','123123');
             if(lkpwd != null && lkpwd != ''){
                 localStorage.lkpwd = CryptoJS.SHA256(CryptoJS.SHA256(lkpwd)+lkpwd);
                 sessionStorage.setItem('pwd', CryptoJS.SHA256(getsalt(lkpwd)));
