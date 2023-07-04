@@ -1,0 +1,28 @@
+<html>
+<head>
+    <meta name=”viewport” content=”width=device-width,initial-scale=1″>
+</head>
+<body>
+<h1>Permanent User Tracking with window.caches</h1>
+<h1 id="output"></h1>
+<script>
+async function set() {
+  var id = Math.random().toString(32).substring(2).toUpperCase();
+  var cache = await caches.open('test');
+  document.getElementById('output').innerHTML = `Your identifier <b><u>${id}</u></b> has been recorded.`;
+  return cache.put(id, new Response('dummy'));
+}
+
+async function get() {
+  var cache = await caches.open('test');
+  var requests = await cache.keys();
+  requests.forEach(function(request) {
+  	var id = request.url.split('/').pop();
+    document.getElementById('output').innerHTML = `Your tracking identifier is <b><u>${id}</u></b>.`;
+  });
+}
+</script>
+<button onclick="set()">Set Tracking ID</button>
+<button onclick="get()">Get Tracking ID</button>
+</body>
+</html>
